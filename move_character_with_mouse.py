@@ -9,8 +9,8 @@ character = load_image('animation_sheet.png')
 hand = load_image('hand_arrow.png')
 
 def random_handprint():
-    random_x = random.randint(0, TUK_WIDTH//2)
-    random_y = random.randint(0, TUK_HEIGHT//2)
+    random_x = random.randint(0, TUK_WIDTH)
+    random_y = random.randint(0, TUK_HEIGHT)
     hand.draw(random_x,random_y)
 
 def handle_events():
@@ -20,12 +20,17 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             running = False
-        # elif event.type == SDL_MOUSEMOTION:
-        #     x, y = event.x, TUK_HEIGHT - 1 - event.y
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
 
+def draw_line(p1, p2):
+    x1, y1 = p1[0], p1[1]
+    x2, y2 = p2[0], p2[1]
 
+    for i in range(0, 100+1, 4):
+        t = i / 100
+        x = (1-t)*x1 + t*x2
+        y = (1-t)*y1 + t*y2
 
 running = True
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
