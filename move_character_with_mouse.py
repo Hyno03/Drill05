@@ -39,7 +39,7 @@ def move_in_line():
             i = 0
             once += 1
 
-
+isplayer_in_hand = True
 running = True
 random_x = random.randint(0, TUK_WIDTH)
 random_y = random.randint(0, TUK_HEIGHT)
@@ -54,7 +54,10 @@ while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-    hand.draw(random_x,random_y)
+    if isplayer_in_hand:
+        hand.draw(random_x, random_y)
+        if x == random_x and y == random_y:
+            isplayer_in_hand = False
     move_in_line()
     update_canvas()
     frame = (frame + 1) % 8
