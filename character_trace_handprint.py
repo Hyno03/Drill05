@@ -42,11 +42,8 @@ def move_in_line():
             i = 0
             moveonce += 1
 
-player_going_to_hand = True
 running = True
 
-# random_x = 0
-# random_y = 0
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 player_first_x, player_first_y = x, y
 player_last_x, player_last_y = x, y
@@ -63,14 +60,12 @@ while running:
     else:
         character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', x, y, 100, 100)
 
-    if player_going_to_hand:
-        random_handprint()
-        hand.draw(player_last_x, player_last_y)
-        if x == player_last_x and y == player_last_y:
-            player_first_x, player_first_y = player_last_x, player_last_y
-            player_going_to_hand = True
-            pickonce = 0
-            moveonce = 0
+    random_handprint()
+    hand.draw(player_last_x, player_last_y)
+    if x == player_last_x and y == player_last_y:
+        player_first_x, player_first_y = player_last_x, player_last_y
+        pickonce = 0
+        moveonce = 0
     move_in_line()
     update_canvas()
     frame = (frame + 1) % 8
