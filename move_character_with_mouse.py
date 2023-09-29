@@ -8,12 +8,15 @@ TUK_ground = load_image('TUK_GROUND.png')
 character = load_image('animation_sheet.png')
 hand = load_image('hand_arrow.png')
 
-# def random_handprint():
-#     global  random_x, random_y
-#
-#     random_x = random.randint(0, TUK_WIDTH)
-#     random_y = random.randint(0, TUK_HEIGHT)
-#     hand.draw(random_x,random_y)
+def random_handprint():
+    global player_last_x, player_last_y
+    global pickonce
+
+    if pickonce == 0:
+        player_last_x = random.randint(0, TUK_WIDTH)
+        player_last_y = random.randint(0, TUK_HEIGHT)
+        pickonce += 1
+
 
 def handle_events():
     global running
@@ -28,36 +31,42 @@ def move_in_line():
     global player_first_x, player_first_y
     global player_last_x, player_last_y
     global x, y
-    global i, once
+    global i, moveonce
 
-    if once < 1:
+    if moveonce < 1:
         t = i / 100
         x = (1-t)*player_first_x + t*player_last_x
         y = (1-t)*player_first_y + t*player_last_y
         i += 1
         if i > 100:
             i = 0
-            once += 1
+            moveonce += 1
 
-isplayer_in_hand = True
+player_going_to_hand = True
 running = True
-random_x = random.randint(0, TUK_WIDTH)
-random_y = random.randint(0, TUK_HEIGHT)
+
+# random_x = 0
+# random_y = 0
 x, y = TUK_WIDTH // 2, TUK_HEIGHT // 2
 player_first_x, player_first_y = x, y
-player_last_x, player_last_y = random_x, random_y
+player_last_x, player_last_y = x, y
+
 frame = 0
-i, once = 0, 0
+i, moveonce, pickonce = 0, 0, 0
 
 
 while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
     character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
-    if isplayer_in_hand:
-        hand.draw(random_x, random_y)
-        if x == random_x and y == random_y:
-            isplayer_in_hand = False
+    if player_going_to_hand:
+        random_handprint()
+        hand.draw(player_last_x, player_last_y)
+        if x == player_last_x and y == player_last_y:
+            player_first_x, player_first_y = player_last_x, player_last_y
+            player_going_to_hand = True
+            pickonce = 0
+            moveonce = 0
     move_in_line()
     update_canvas()
     frame = (frame + 1) % 8
