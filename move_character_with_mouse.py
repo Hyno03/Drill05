@@ -58,7 +58,11 @@ i, moveonce, pickonce = 0, 0, 0
 while running:
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
-    character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+    if player_first_x <= player_last_x:
+        character.clip_draw(frame * 100, 100 * 1, 100, 100, x, y)
+    else:
+        character.clip_composite_draw(frame * 100, 100 * 1, 100, 100, 0, 'h', x, y, 100, 100)
+
     if player_going_to_hand:
         random_handprint()
         hand.draw(player_last_x, player_last_y)
